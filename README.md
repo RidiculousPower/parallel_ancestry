@@ -52,6 +52,8 @@ Parallel ancestry instances support registration and lookup of arbitrarily decla
 * highest_children( instance, & match_ancestor_block )
 * match_ancestor_searching_upward( instance, ancestor_match_block, & match_block )
 
+match_block is always a proc or lambda that will be passed the next ancestor as the single parameter and is expected to return true or false whether or not the ancestor matches the condition.
+
 ## ::ParallelAncestry::Inheritance ##
 
 ::ParallelAncestry::Inheritance provides hooks for Ruby inheritance events.
