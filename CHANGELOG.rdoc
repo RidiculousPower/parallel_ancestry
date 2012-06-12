@@ -1,0 +1,6 @@
+
+== 6/10/2012
+
+Initial release abstracted to be entirely independent from cascading-configuration.
+Replaces cascading-configuration-inheritance and cascading-configuration-ancestors without any cascading-configuration dependencies.
+
