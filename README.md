@@ -54,6 +54,18 @@ Parallel ancestry instances support registration and lookup of arbitrarily decla
 
 match_block is always a proc or lambda that will be passed the next ancestor as the single parameter and is expected to return true or false whether or not the ancestor matches the condition.
 
+```ruby
+match_block = ::Proc.new do |this_ancestor|
+
+  if this_ancestor.matches_arbitrary_condition
+    true
+  else
+    false
+  end
+
+end
+```
+
 ## ::ParallelAncestry::Inheritance ##
 
 ::ParallelAncestry::Inheritance provides hooks for Ruby inheritance events.
