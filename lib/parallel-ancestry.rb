@@ -9,9 +9,10 @@ basepath = 'parallel-ancestry/ParallelAncestry'
 
 files = [
   
-  'ModuleSubclassInheritance',
   'Inheritance',
-  'Inheritance/ModuleSubclassInheritance'
+  'Inheritance/ModuleSubclassInheritance',
+
+  'ModuleSubclassInheritance'
     
 ]
 
