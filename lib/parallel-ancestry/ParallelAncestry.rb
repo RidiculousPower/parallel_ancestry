@@ -294,7 +294,7 @@ module ::ParallelAncestry
   end
   
   #####################################
-  #  match_ancestor_searching_upward  #
+  #  match_ancestor  #
   #####################################
 
   # Returns the first ancestor (determined by ancestor_match_block) for which match_block is true.
@@ -312,7 +312,7 @@ module ::ParallelAncestry
   #       false
   #     end
   #   end
-  #   ::ParallelAncestry.match_ancestor_searching_upward( some_instance, 
+  #   ::ParallelAncestry.match_ancestor( some_instance, 
   #                                                       ancestor_match_block ) do |this_parent|
   #     if this_parent.matches_arbitrary_condition
   #       true
@@ -321,7 +321,7 @@ module ::ParallelAncestry
   #     end
   #   end
   # @return [Object] 
-  def match_ancestor_searching_upward( instance, ancestor_match_block, & match_block )
+  def match_ancestor( instance, ancestor_match_block, & match_block )
 
     matched_value = nil
     
@@ -343,7 +343,7 @@ module ::ParallelAncestry
       
     else
 
-      matched_value = match_ancestor_searching_upward( this_ancestor.class, 
+      matched_value = match_ancestor( this_ancestor.class, 
                                                        ancestor_match_block,
                                                        & match_block )
       

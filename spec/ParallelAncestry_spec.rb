@@ -263,7 +263,7 @@ describe ::ParallelAncestry do
   end
   
   #####################################
-  #  match_ancestor_searching_upward  #
+  #  match_ancestor  #
   #####################################
 
   it 'can get the first defined configuration searching up the module configuration inheritance chain' do
@@ -331,26 +331,26 @@ describe ::ParallelAncestry do
         instance_A.some_configuration = :some_value
         instance_B.some_other_configuration = :some_other_value
       
-        match_ancestor_searching_upward( instance_B, match_ancestor_proc, & match_proc ).should == instance_A   
-        match_ancestor_searching_upward( instance_C1, match_ancestor_proc, & match_proc ).should == instance_A
+        match_ancestor( instance_B, match_ancestor_proc, & match_proc ).should == instance_A   
+        match_ancestor( instance_C1, match_ancestor_proc, & match_proc ).should == instance_A
 
         configuration_method = :some_other_configuration
-        match_ancestor_searching_upward( instance_B, match_ancestor_proc, & match_proc ).should == instance_B
-        match_ancestor_searching_upward( instance_C1, match_ancestor_proc, & match_proc ).should == instance_B
+        match_ancestor( instance_B, match_ancestor_proc, & match_proc ).should == instance_B
+        match_ancestor( instance_C1, match_ancestor_proc, & match_proc ).should == instance_B
 
         instance_C2.yet_another_configuration = :another_value
 
         configuration_method = :yet_another_configuration
-        match_ancestor_searching_upward( instance_C1, match_ancestor_proc, & match_proc ).should == nil
-        match_ancestor_searching_upward( instance_D, match_ancestor_proc, & match_proc ).should == instance_C2
+        match_ancestor( instance_C1, match_ancestor_proc, & match_proc ).should == nil
+        match_ancestor( instance_D, match_ancestor_proc, & match_proc ).should == instance_C2
 
         configuration_method = :some_configuration
-        match_ancestor_searching_upward( instance_C2, match_ancestor_proc, & match_proc ).should == instance_A
-        match_ancestor_searching_upward( instance_D, match_ancestor_proc, & match_proc ).should == instance_A
+        match_ancestor( instance_C2, match_ancestor_proc, & match_proc ).should == instance_A
+        match_ancestor( instance_D, match_ancestor_proc, & match_proc ).should == instance_A
 
         configuration_method = :some_other_configuration
-        match_ancestor_searching_upward( instance_C2, match_ancestor_proc, & match_proc ).should == instance_B
-        match_ancestor_searching_upward( instance_D, match_ancestor_proc, & match_proc ).should == instance_B
+        match_ancestor( instance_C2, match_ancestor_proc, & match_proc ).should == instance_B
+        match_ancestor( instance_D, match_ancestor_proc, & match_proc ).should == instance_B
 
       end    
     end
