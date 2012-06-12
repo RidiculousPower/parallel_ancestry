@@ -7,3 +7,4 @@ Replaces cascading-configuration-inheritance and cascading-configuration-ancesto
 == 6/11/2012
 
 Added YARD docs.
+Shortened :initialize_base_instance_for_include and :initialize_base_instance_for_extend parameters to remove reference to self, since self is already present as block receiver.

@@ -41,12 +41,12 @@ module ::ParallelAncestry::Inheritance
     
     # When inheritance module is included in another module:
     prepend_class_or_module_include do |base_instance|
-      initialize_base_instance_for_include( self, base_instance )
+      initialize_base_instance_for_include( base_instance )
     end
 
     # When inheritance module is used to extend another module:
     prepend_class_or_module_or_instance_extend do |base_instance|
-      initialize_base_instance_for_extend( self, base_instance )
+      initialize_base_instance_for_extend( base_instance )
     end
     
     return self
@@ -61,7 +61,7 @@ module ::ParallelAncestry::Inheritance
   #  initialize_base_instance_for_include  #
   ##########################################
   
-  def initialize_base_instance_for_include( inheritance_module, inheriting_instance )
+  def initialize_base_instance_for_include( inheriting_instance )
 
     # Initialize for future inheriting instances.
     return initialize_inheritance( inheriting_instance )
@@ -72,7 +72,7 @@ module ::ParallelAncestry::Inheritance
   #  initialize_base_instance_for_extend  #
   #########################################
 
-  def initialize_base_instance_for_extend( inheritance_module, inheriting_instance )
+  def initialize_base_instance_for_extend( inheriting_instance )
   
     # Hook for extended module to redefine - nothing to do.
     
