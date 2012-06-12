@@ -12,3 +12,4 @@ Shortened :initialize_base_instance_for_include and :initialize_base_instance_fo
 == 6/12/2012
 
 Renamed :match_ancestor_searching_upward to :match_ancestor because ancestors are always found by searching upward.
+Fixes for ancestor lookup when arriving at Class.

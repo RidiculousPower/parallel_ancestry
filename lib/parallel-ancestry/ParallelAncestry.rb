@@ -145,10 +145,13 @@ module ::ParallelAncestry
     # If we don't have ancestors explicitly declared for this instance, and if it is not 
     # a ::Class or ::Module (both are ::Modules) then we have an instance of a class,
     # so we can use the instance's class
-    if parents.empty? and ! instance.is_a?( ::Module )
+    if parents.empty? and instance != ::Class
       
-      ancestor_instance = instance.class
-            
+      instance_class = instance.class
+      if match_ancestor_block.call( instance_class )
+        ancestor_instance = instance.class
+      end
+          
     else
 
       parents.each do |this_parent|
@@ -293,9 +296,9 @@ module ::ParallelAncestry
     
   end
   
-  #####################################
+  ####################
   #  match_ancestor  #
-  #####################################
+  ####################
 
   # Returns the first ancestor (determined by ancestor_match_block) for which match_block is true.
   # @param [Object] instance Instance for which parents are being looked up.
@@ -312,8 +315,7 @@ module ::ParallelAncestry
   #       false
   #     end
   #   end
-  #   ::ParallelAncestry.match_ancestor( some_instance, 
-  #                                                       ancestor_match_block ) do |this_parent|
+  #   ::ParallelAncestry.match_ancestor( some_instance, ancestor_match_block ) do |this_parent|
   #     if this_parent.matches_arbitrary_condition
   #       true
   #     else
@@ -323,33 +325,31 @@ module ::ParallelAncestry
   # @return [Object] 
   def match_ancestor( instance, ancestor_match_block, & match_block )
 
-    matched_value = nil
+    matched_ancestor = nil
     
     this_ancestor = instance
 
-    if this_ancestor.is_a?( ::Module ) or
-       has_parents?( this_ancestor )
-      
+    if has_parents?( this_ancestor )
+
       begin
         if match_block.call( this_ancestor )
-          matched_value = this_ancestor
+          matched_ancestor = this_ancestor
           break
         end
+        break if this_ancestor.equal?( ::Object )
       end while this_ancestor = ancestor( this_ancestor, & ancestor_match_block )
-    
+
     elsif match_block.call( this_ancestor )
 
-      matched_value = this_ancestor
+      matched_ancestor = this_ancestor
       
     else
 
-      matched_value = match_ancestor( this_ancestor.class, 
-                                                       ancestor_match_block,
-                                                       & match_block )
+      matched_ancestor = match_ancestor( this_ancestor.class, ancestor_match_block, & match_block )
       
     end
-    
-    return matched_value
+
+    return matched_ancestor
     
   end
   
