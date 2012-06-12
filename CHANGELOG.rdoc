@@ -4,3 +4,6 @@
 Initial release abstracted to be entirely independent from cascading-configuration.
 Replaces cascading-configuration-inheritance and cascading-configuration-ancestors without any cascading-configuration dependencies.
 
+== 6/11/2012
+
+Added YARD docs.

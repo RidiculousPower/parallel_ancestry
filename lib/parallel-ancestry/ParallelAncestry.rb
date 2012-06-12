@@ -27,6 +27,9 @@ module ::ParallelAncestry
   #  children  #
   ##############
   
+  # Return a list of children for provided object.
+  # @param [Object] instance Object instance.
+  # @return [Array<Object>] An array containing references to children.
   def children( instance )
     
     return children_hash( instance ).keys
@@ -37,6 +40,9 @@ module ::ParallelAncestry
   #  parents  #
   #############
   
+  # Return a list of parents for provided object.
+  # @param [Object] instance Object instance.
+  # @return [Array<Object>] An array containing references to immediate parents for any configuration.
   def parents( instance )
     
     return parents_array( instance )
@@ -47,6 +53,9 @@ module ::ParallelAncestry
   #  has_parents?  #
   ##################
   
+  # Return whether provided object has parents.
+  # @param [Object] instance Object instance.
+  # @return [true, false] true or false.
   def has_parents?( instance )
     
     has_parents = false
@@ -65,6 +74,9 @@ module ::ParallelAncestry
   #  has_children?  #
   ###################
   
+  # Return whether provided object has children.
+  # @param [Object] instance Object instance.
+  # @return [true, false] true or false.
   def has_children?( instance )
     
     has_children = false
@@ -83,6 +95,10 @@ module ::ParallelAncestry
   #  register_child_for_parent  #
   ###############################
   
+  # Register instance as child of another instance.
+  # @param [Object] child Child instance.
+  # @param [Object] parent Parent instance.
+  # @return [Array<Object>] An array containing references to children.
   def register_child_for_parent( child, parent )
 
     parents_of_child_hash = parents_hash( child )
@@ -107,6 +123,19 @@ module ::ParallelAncestry
   #  ancestor  #
   ##############
   
+  # Return parent for instance that matches match_ancestor_block.
+  # @param [Object] instance Child instance.
+  # @yield Block used to match parent. The parameter is the parent instance, the return value true
+  #        or false, reflecting whether or not block matched ancestor.
+  # @example
+  #   ::ParallelAncestry.ancestor( some_instance ) do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  # @return [Object] A reference to parent matching block condition.
   def ancestor( instance, & match_ancestor_block )
     
     ancestor_instance = nil
@@ -137,10 +166,25 @@ module ::ParallelAncestry
     
   end
   
+  alias_method :parent, :ancestor
+  
   ####################
   #  ancestor_chain  #
   ####################
   
+  # Returns ancestor chain defined for provided object.
+  # @param [Object] instance Instance for which ancestors are being looked up.
+  # @yield Block used to match parent. The parameter is the parent instance, the return value true
+  #        or false, reflecting whether or not block matched ancestor.
+  # @example
+  #   ::ParallelAncestry.ancestor( some_instance ) do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  # @return [Array<Object>] An array containing references to parents matching block condition.
   def ancestor_chain( instance, & match_ancestor_block )
     
     ancestor_chain = [ this_ancestor = instance ]
@@ -157,6 +201,22 @@ module ::ParallelAncestry
   #  lowest_parents  #
   ####################
   
+  # Returns the lowest parent in each parent tree matching block condition. For simple linear
+  # trees, this is simply the first parent, but more complex trees quickly diverge into multiple
+  # branches, each of which then requires a lowest match.
+  # @param [Object] instance Instance for which parents are being looked up.
+  # @yield Block used to match parent. The parameter is the parent instance, the return value true
+  #        or false, reflecting whether or not block matched ancestor.
+  # @example
+  #   ::ParallelAncestry.lowest_parents( some_instance ) do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  # @return [Array<Object>] An array containing references to lowest parent in each parent tree 
+  #   matching block condition.
   def lowest_parents( instance, & match_ancestor_block )
 
     # the first super module available for each tree
@@ -189,6 +249,22 @@ module ::ParallelAncestry
   #  highest_children  #
   ######################
   
+  # Returns the highest parent in each parent tree matching block condition. For simple linear
+  # trees, this is simply the first parent, but more complex trees quickly diverge into multiple
+  # branches, each of which then requires a highest match.
+  # @param [Object] instance Instance for which parents are being looked up.
+  # @yield Block used to match parent. The parameter is the parent instance, the return value true
+  #        or false, reflecting whether or not block matched ancestor.
+  # @example
+  #   ::ParallelAncestry.highest_parents( some_instance ) do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  # @return [Array<Object>] An array containing references to highest parent in each parent tree 
+  #   matching block condition.
   def highest_children( instance, & match_ancestor_block )
 
     # the first super module available for each tree
@@ -221,6 +297,30 @@ module ::ParallelAncestry
   #  match_ancestor_searching_upward  #
   #####################################
 
+  # Returns the first ancestor (determined by ancestor_match_block) for which match_block is true.
+  # @param [Object] instance Instance for which parents are being looked up.
+  # @param [Proc] ancestor_match_block Proc used to match parent. The parameter is the parent 
+  #        instance, the return value true or false, reflecting whether or not block matched 
+  #        ancestor.
+  # @yield Block used to match parent. The parameter is the parent instance, the return value true
+  #        or false, reflecting whether or not block matched.
+  # @example
+  #   ancestor_match_block = ::Proc.new do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  #   ::ParallelAncestry.match_ancestor_searching_upward( some_instance, 
+  #                                                       ancestor_match_block ) do |this_parent|
+  #     if this_parent.matches_arbitrary_condition
+  #       true
+  #     else
+  #       false
+  #     end
+  #   end
+  # @return [Object] 
   def match_ancestor_searching_upward( instance, ancestor_match_block, & match_block )
 
     matched_value = nil
