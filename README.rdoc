@@ -31,7 +31,18 @@ Two modules are provided by Parallel Ancestry:
 2. Extend any module with ::ParallelAncestry to enable module as singleton implementation for parallel inheritance.
 3. Include ::ParallelAncestry in subclass of ::Module to enable instances of ::Module subclass as individual implementations for parallel inheritance.
 
-Parallel ancestry instances support registration and lookup of arbitrarily declared ancestor relationships 
+Parallel ancestry instances support registration and lookup of arbitrarily declared ancestor relationships:
+
+* children( instance )
+* parents( instance )
+* has_parents?( instance )
+* has_children?( instance )
+* register_child_for_parent( child, parent )
+* ancestor( instance, & match_ancestor_block )
+* ancestor_chain( instance, & match_ancestor_block )
+* lowest_parents( instance, & match_ancestor_block )
+* highest_children( instance, & match_ancestor_block )
+* match_ancestor_searching_upward( instance, ancestor_match_block, & match_block )
 
 ==  ::ParallelAncestry::Inheritance
 
