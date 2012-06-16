@@ -1,5 +1,6 @@
 
 require 'module-cluster'
+require 'unique-array'
 
 module ::ParallelAncestry
   

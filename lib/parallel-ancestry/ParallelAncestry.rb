@@ -1,7 +1,7 @@
 
 module ::ParallelAncestry
 
-  InstanceAncestryStruct = ::Struct.new( :children_hash, :parents_array, :parents_hash )
+  InstanceAncestryStruct = ::Struct.new( :children, :parents )
 
   extend ::ModuleCluster::Define::Block::ClassOrModule
   
@@ -32,7 +32,7 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to children.
   def children( instance )
     
-    return children_hash( instance ).keys
+    return ancestor_struct( instance ).children ||= ::UniqueArray.new( self )
 
   end
 
@@ -45,7 +45,7 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to immediate parents for any configuration.
   def parents( instance )
     
-    return parents_array( instance )
+    return ancestor_struct( instance ).parents ||= ::UniqueArray.new( self )
 
   end
 
@@ -58,15 +58,7 @@ module ::ParallelAncestry
   # @return [true, false] true or false.
   def has_parents?( instance )
     
-    has_parents = false
-    
-    ancestor_struct = ancestor_struct( instance )
-    
-    if ancestor_struct.parents_array
-      has_parents = ! ancestor_struct.parents_array.empty?
-    end
-    
-    return has_parents
+    return ! parents( instance ).empty?
 
   end
 
@@ -79,15 +71,7 @@ module ::ParallelAncestry
   # @return [true, false] true or false.
   def has_children?( instance )
     
-    has_children = false
-    
-    ancestor_struct = ancestor_struct( instance )
-    
-    if ancestor_struct.children_hash
-      has_children = ! ancestor_struct.children_hash.empty?
-    end
-    
-    return has_children
+    return ! children( instance ).empty?
 
   end
 
@@ -101,19 +85,14 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to children.
   def register_child_for_parent( child, parent )
 
-    parents_of_child_hash = parents_hash( child )
-    children_of_parent_hash = children_hash( parent )
+    parents_of_child = parents( child )
+    children_of_parent = children( parent )
 
-    unless children_of_parent_hash.has_key?( child )
-      # child order shouldn't be relevant
-      children_of_parent_hash[ child ] = true
-    end
+    # child order shouldn't be relevant
+    children_of_parent.push( child )
     
-    unless parents_of_child_hash.has_key?( parent )
-      parents_of_child_hash[ parent ] = true
-      # parent order determines who wins conflicts, so we keep youngest first
-      parents_array( child ).unshift( parent )
-    end
+    # parent order determines who wins conflicts, so we keep youngest first
+    parents_of_child.unshift( parent )
 
     return self
 
@@ -371,36 +350,6 @@ module ::ParallelAncestry
     
     return ancestor_struct
     
-  end
-
-  ###################
-  #  children_hash  #
-  ###################
-  
-  def children_hash( instance )
-    
-    return ancestor_struct( instance ).children_hash ||= { }
-
-  end
-
-  ##################
-  #  parents_hash  #
-  ##################
-  
-  def parents_hash( instance )
-    
-    return ancestor_struct( instance ).parents_hash ||= { }
-
-  end
-
-  ###################
-  #  parents_array  #
-  ###################
-  
-  def parents_array( instance )
-    
-    return ancestor_struct( instance ).parents_array ||= [ ]
-
   end
 
 end

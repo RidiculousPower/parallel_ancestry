@@ -13,3 +13,7 @@ Shortened :initialize_base_instance_for_include and :initialize_base_instance_fo
 
 Renamed :match_ancestor_searching_upward to :match_ancestor because ancestors are always found by searching upward.
 Fixes for ancestor lookup when arriving at Class.
+
+== 6/15/2012
+
+Added unique-array for children and parents, which means now :include? etc. use hash lookup internally.
