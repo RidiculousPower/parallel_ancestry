@@ -112,7 +112,7 @@ module ::ParallelAncestry::Inheritance
         end
 
         instance.class_or_module_or_instance_extend do |inheriting_module|
-          inheritance_module.initialize_inheriting_instance( instance, inheriting_module )
+          inheritance_module.initialize_inheriting_instance( instance, inheriting_module, false, true )
         end
         
       end
@@ -127,7 +127,7 @@ module ::ParallelAncestry::Inheritance
   #  initialize_inheriting_instance  #
   ####################################
 
-  def initialize_inheriting_instance( parent_instance, inheriting_instance, for_subclass = false )
+  def initialize_inheriting_instance( parent_instance, inheriting_instance, for_subclass = false, is_extending = false )
 
     # Hook for extended module to redefine - nothing to do.
 

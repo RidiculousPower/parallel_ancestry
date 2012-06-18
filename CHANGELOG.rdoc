@@ -17,3 +17,7 @@ Fixes for ancestor lookup when arriving at Class.
 == 6/15/2012
 
 Added unique-array for children and parents, which means now :include? etc. use hash lookup internally.
+
+== 6/18/2012
+
+Added is_extending parameter (default = false) to :initialize_inheriting_instance.
