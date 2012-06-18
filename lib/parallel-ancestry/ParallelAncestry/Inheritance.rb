@@ -99,7 +99,7 @@ module ::ParallelAncestry::Inheritance
         instance.extend( ::ModuleCluster::Define::Block::Subclass )
 
         instance.subclass do |inheriting_subclass|
-          inheritance_module.initialize_inheriting_instance( instance, inheriting_subclass, true )
+          inheritance_module.initialize_inheriting_instance( self, inheriting_subclass, true )
         end
 
       else

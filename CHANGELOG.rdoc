@@ -21,3 +21,4 @@ Added unique-array for children and parents, which means now :include? etc. use 
 == 6/18/2012
 
 Added is_extending parameter (default = false) to :initialize_inheriting_instance.
+Fix for subclass inheritance passing subclass instance (self) rather than class instance.
