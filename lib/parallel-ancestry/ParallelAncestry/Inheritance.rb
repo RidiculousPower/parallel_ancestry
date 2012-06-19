@@ -106,12 +106,12 @@ module ::ParallelAncestry::Inheritance
 
         instance.extend( ::ModuleCluster::Define::Block::ClassOrModuleOrInstance )
 
-        instance.class_or_module_include do |inheriting_module|
+        instance.prepend_class_or_module_include do |inheriting_module|
           inheritance_module.initialize_inheriting_instance( instance, inheriting_module )
           inheritance_module.initialize_inheritance( inheriting_module )
         end
 
-        instance.class_or_module_or_instance_extend do |inheriting_module|
+        instance.prepend_class_or_module_or_instance_extend do |inheriting_module|
           inheritance_module.initialize_inheriting_instance( instance, inheriting_module, false, true )
         end
         

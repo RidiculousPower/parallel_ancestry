@@ -17,7 +17,7 @@ describe ::ParallelAncestry::Inheritance do
         return returning_ran_initialize_inheritance_for_module
       end
       # mock to ensure call
-      def self.initialize_base_instance_for_include( inheritance_module, inheriting_instance )
+      def self.initialize_base_instance_for_include( inheriting_instance )
         super
         @ran_initialize_base_instance_for_include = true
       end
@@ -27,7 +27,7 @@ describe ::ParallelAncestry::Inheritance do
         return returning_ran_initialize_base_instance_for_include
       end
       # mock to ensure call
-      def self.initialize_base_instance_for_extend( inheritance_module, inheriting_instance )
+      def self.initialize_base_instance_for_extend( inheriting_instance )
         super
         @ran_initialize_base_instance_for_extend = true
       end
@@ -148,7 +148,7 @@ describe ::ParallelAncestry::Inheritance do
         return returning_ran_initialize_inheritance_for_module
       end
       # mock to ensure call
-      def self.initialize_base_instance_for_include( inheritance_module, inheriting_instance )
+      def self.initialize_base_instance_for_include( inheriting_instance )
         super
         @ran_initialize_base_instance_for_include = true
       end
@@ -158,7 +158,7 @@ describe ::ParallelAncestry::Inheritance do
         return returning_ran_initialize_base_instance_for_include
       end
       # mock to ensure call
-      def self.initialize_base_instance_for_extend( inheritance_module, inheriting_instance )
+      def self.initialize_base_instance_for_extend( inheriting_instance )
         super
         @ran_initialize_base_instance_for_extend = true
       end
