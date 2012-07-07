@@ -3,17 +3,17 @@ module ::ParallelAncestry
 
   InstanceAncestryStruct = ::Struct.new( :children, :parents )
 
-  extend ::ModuleCluster::Define::Block::ClassOrModule
+  extend ::Module::Cluster
   
   # Initialize any module extended with self for inheritance hooks
-  module_extend do |ancestors_module|    
+  cluster( :parallel_ancestry ).after_extend( :module ) do |ancestors_module|    
     ancestors_module.module_eval do
       @ancestors_hash = { }
     end
   end
   
   # Initialize any subclass of module including self for inheritance hooks
-  class_include do |class_instance|
+  cluster( :parallel_ancestry ).after_include( :class ) do |class_instance|
     if class_instance < ::Module
       class_instance.module_eval do
         include( ::ParallelAncestry::ModuleSubclassInheritance )
@@ -32,7 +32,7 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to children.
   def children( instance )
     
-    return ancestor_struct( instance ).children ||= ::UniqueArray.new( self )
+    return ancestor_struct( instance ).children ||= ::Array::Unique.new( self )
 
   end
 
@@ -45,7 +45,7 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to immediate parents for any configuration.
   def parents( instance )
     
-    return ancestor_struct( instance ).parents ||= ::UniqueArray.new( self )
+    return ancestor_struct( instance ).parents ||= ::Array::Unique.new( self )
 
   end
 

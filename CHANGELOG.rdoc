@@ -26,3 +26,7 @@ Fix for subclass inheritance passing subclass instance (self) rather than class 
 == 6/19/2012
 
 Changed include/extend hooks to prepend.
+
+== 7/06/2012
+
+Renamed to parallel_ancestry.

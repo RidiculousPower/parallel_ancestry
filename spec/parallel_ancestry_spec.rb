@@ -1,5 +1,5 @@
 
-require_relative '../lib/parallel-ancestry.rb'
+require_relative '../lib/parallel_ancestry.rb'
 
 describe ::ParallelAncestry do
 

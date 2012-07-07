@@ -7,7 +7,7 @@ module ::ParallelAncestry::Inheritance
   # * First extend:         :initialize_base_instance_for_extend
   # * Subsequent includes:  :initialize_inheriting_instance
   
-  extend ModuleCluster::Define::Block::ClassOrModule
+  extend ::Module::Cluster
 
   ##################################################################################################
   ##################################  Inheritance Initialization  ##################################
@@ -16,12 +16,12 @@ module ::ParallelAncestry::Inheritance
   # We want to enable any module extended with self or any subclass of Module including self
 
   # Initialize any module extended with self for inheritance hooks
-  module_extend do |inheritance_module|
+  cluster( :parallel_ancestry ).after_extend do |inheritance_module|
     inheritance_module.initialize_inheritance_for_module!
   end
 
   # Initialize any subclass of module including self for inheritance hooks
-  class_include do |class_instance|
+  cluster( :parallel_ancestry ).after_include do |class_instance|
     if class_instance < ::Module
       class_instance.module_eval do
         include( ::ParallelAncestry::Inheritance::ModuleSubclassInheritance )
@@ -35,17 +35,17 @@ module ::ParallelAncestry::Inheritance
 
   def initialize_inheritance_for_module!
 
-    @initialized_inheriting_instance = { }
+    @initialized_inheritance_for_instance = { }
     
-    extend( ::ModuleCluster::Define::Block::ClassOrModuleOrInstance )
+    extend ::Module::Cluster
     
     # When inheritance module is included in another module:
-    prepend_class_or_module_include do |base_instance|
+    cluster( :parallel_ancestry ).before_include do |base_instance|
       initialize_base_instance_for_include( base_instance )
     end
 
     # When inheritance module is used to extend another module:
-    prepend_class_or_module_or_instance_extend do |base_instance|
+    cluster( :parallel_ancestry ).before_extend do |base_instance|
       initialize_base_instance_for_extend( base_instance )
     end
     
@@ -90,34 +90,34 @@ module ::ParallelAncestry::Inheritance
   
   def initialize_inheritance( instance )
     
-    unless @initialized_inheriting_instance[ instance ]
+    unless @initialized_inheritance_for_instance[ instance ]
 
       inheritance_module = self
 
       if instance.is_a?( ::Class )
 
-        instance.extend( ::ModuleCluster::Define::Block::Subclass )
-
-        instance.subclass do |inheriting_subclass|
+        instance.extend( ::Module::Cluster )
+        
+        instance.cluster( :parallel_ancestry ).subclass do |inheriting_subclass|
           inheritance_module.initialize_inheriting_instance( self, inheriting_subclass, true )
         end
 
       else
 
-        instance.extend( ::ModuleCluster::Define::Block::ClassOrModuleOrInstance )
+        instance.extend( ::Module::Cluster )
 
-        instance.prepend_class_or_module_include do |inheriting_module|
+        instance.cluster( :parallel_ancestry ).before_include do |inheriting_module|
           inheritance_module.initialize_inheriting_instance( instance, inheriting_module )
           inheritance_module.initialize_inheritance( inheriting_module )
         end
 
-        instance.prepend_class_or_module_or_instance_extend do |inheriting_module|
+        instance.cluster( :parallel_ancestry ).before_extend do |inheriting_module|
           inheritance_module.initialize_inheriting_instance( instance, inheriting_module, false, true )
         end
         
       end
 
-      @initialized_inheriting_instance[ instance ] = true
+      @initialized_inheritance_for_instance[ instance ] = true
     
     end
   

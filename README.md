@@ -1,6 +1,6 @@
 # Parallel Ancestry #
 
-http://rubygems.org/gems/parallel-ancestry
+http://rubygems.org/gems/parallel_ancestry
 
 # Summary #
 
@@ -20,7 +20,7 @@ Used heavily by CascadingConfiguration gem (cascading-configuration) as well as 
 
 # Install #
 
-* sudo gem install parallel-ancestry
+* sudo gem install parallel_ancestry
 
 # Usage #
 
