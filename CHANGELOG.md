@@ -30,3 +30,7 @@ Changed include/extend hooks to prepend.
 ## 7/06/2012 ##
 
 Renamed to parallel_ancestry.
+
+## 7/10/2012 ##
+
+Fixes for which instances blocks are eval'd on.

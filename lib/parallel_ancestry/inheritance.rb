@@ -89,7 +89,7 @@ module ::ParallelAncestry::Inheritance
   ############################
   
   def initialize_inheritance( instance )
-    
+
     unless @initialized_inheritance_for_instance[ instance ]
 
       inheritance_module = self
@@ -99,7 +99,8 @@ module ::ParallelAncestry::Inheritance
         instance.extend( ::Module::Cluster )
         
         instance.cluster( :parallel_ancestry ).subclass do |inheriting_subclass|
-          inheritance_module.initialize_inheriting_instance( self, inheriting_subclass, true )
+          inheritance_module.initialize_inheriting_instance( instance, inheriting_subclass, true )
+          inheritance_module.initialize_inheritance( inheriting_subclass )
         end
 
       else
