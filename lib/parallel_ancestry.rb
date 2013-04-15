@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require 'module/cluster'
 require 'array/unique'
@@ -20,12 +21,22 @@ module ::ParallelAncestry
       @ancestors_hash = { }
     end
   end
+
+  # Initialize any class extended with module including self for inheritance hooks
+  cluster( :parallel_ancestry ).after_include( :module ) do |ancestors_module|    
+    ancestors_module.extend( ::Module::Cluster )
+    ancestors_module.cluster( :parallel_ancestry ).after_extend( :module ) do |ancestors_module|    
+      ancestors_module.module_eval do
+        @ancestors_hash = { }
+      end
+    end
+  end
   
   # Initialize any subclass of module including self for inheritance hooks
   cluster( :parallel_ancestry ).after_include( :class ) do |class_instance|
-    if class_instance < ::Module
-      class_instance.module_eval do
-        include( ::ParallelAncestry::ModuleSubclassInheritance )
+    if class_instance < ::Module and not class_instance < ::Class
+      class_instance.class_eval do
+        include( ::ParallelAncestry::ModuleSubclassInitialization )
       end
     end
   end
@@ -41,7 +52,7 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to children.
   def children( instance )
     
-    return ancestor_struct( instance ).children ||= ::Array::Unique.new( self )
+    return ancestor_struct( instance ).children ||= ::Array::UniqueByID.new( self )
 
   end
 
@@ -54,7 +65,27 @@ module ::ParallelAncestry
   # @return [Array<Object>] An array containing references to immediate parents for any configuration.
   def parents( instance )
     
-    return ancestor_struct( instance ).parents ||= ::Array::Unique.new( self )
+    return ancestor_struct( instance ).parents ||= ::Array::UniqueByID.new( self )
+
+  end
+
+  ################
+  #  is_parent?  #
+  ################
+  
+  def is_parent?( instance, potential_parent )
+    
+    return parents( instance ).include?( potential_parent )
+    
+  end
+
+  ###############
+  #  is_child?  #
+  ###############
+
+  def is_child?( instance, potential_child )
+
+    return children( instance ).include?( potential_child )
 
   end
 
@@ -84,15 +115,15 @@ module ::ParallelAncestry
 
   end
 
-  ###############################
-  #  register_child_for_parent  #
-  ###############################
+  #####################
+  #  register_parent  #
+  #####################
   
   # Register instance as child of another instance.
   # @param [Object] child Child instance.
   # @param [Object] parent Parent instance.
-  # @return [Array<Object>] An array containing references to children.
-  def register_child_for_parent( child, parent )
+  # @return Self.
+  def register_parent( child, parent )
 
     parents_of_child = parents( child )
     children_of_parent = children( parent )
@@ -102,6 +133,31 @@ module ::ParallelAncestry
     
     # parent order determines who wins conflicts, so we keep youngest first
     parents_of_child.unshift( parent )
+
+    return self
+
+  end
+  
+  alias_method :register_child_for_parent, :register_parent
+
+  #######################
+  #  unregister_parent  #
+  #######################
+  
+  # Unregister instance as child of another instance.
+  # @param [Object] child Child instance.
+  # @param [Object] parent Parent instance.
+  # @return Self.
+  def unregister_parent( child, parent )
+
+    parents_of_child = parents( child )
+    children_of_parent = children( parent )
+
+    # child order shouldn't be relevant
+    children_of_parent.delete( child )
+    
+    # parent order determines who wins conflicts, so we keep youngest first
+    parents_of_child.delete( parent )
 
     return self
 
@@ -350,7 +406,7 @@ module ::ParallelAncestry
   #####################
   
   def ancestor_struct( instance )
-    
+
     unless ancestor_struct = @ancestors_hash[ instance.__id__ ]
       # fill in slots lazily
       ancestor_struct = ::ParallelAncestry::InstanceAncestryStruct.new

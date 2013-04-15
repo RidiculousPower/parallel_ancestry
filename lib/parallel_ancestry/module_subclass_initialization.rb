@@ -1,5 +1,6 @@
+# -*- encoding : utf-8 -*-
 
-module ::ParallelAncestry::ModuleSubclassInheritance
+module ::ParallelAncestry::ModuleSubclassInitialization
 
   ################
   #  initialize  #
@@ -12,7 +13,7 @@ module ::ParallelAncestry::ModuleSubclassInheritance
     super if defined?( super )
 
     @ancestors_hash = { }
-    
+
   end
 
 end
