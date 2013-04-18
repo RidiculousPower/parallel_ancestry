@@ -75,6 +75,23 @@ module ::ParallelAncestry
   
   def is_parent?( instance, potential_parent )
     
+    is_parent = false
+    
+    instance_parents = parents( instance )
+    unless is_parent = instance_parents.include?( potential_parent )
+      is_parent = instance_parents.any? { |this_parent| is_parent?( this_parent, potential_parent ) }
+    end
+    
+    return is_parent
+    
+  end
+
+  ##########################
+  #  is_immediate_parent?  #
+  ##########################
+  
+  def is_immediate_parent?( instance, potential_parent )
+    
     return parents( instance ).include?( potential_parent )
     
   end
@@ -84,6 +101,23 @@ module ::ParallelAncestry
   ###############
 
   def is_child?( instance, potential_child )
+
+    is_child = false
+    
+    instance_children = children( instance )
+    unless is_child = instance_children.include?( potential_child )
+      is_child = instance_children.any? { |this_child| is_child?( this_child, potential_child ) }
+    end
+    
+    return is_child
+
+  end
+
+  #########################
+  #  is_immediate_child?  #
+  #########################
+
+  def is_immediate_child?( instance, potential_child )
 
     return children( instance ).include?( potential_child )
 
