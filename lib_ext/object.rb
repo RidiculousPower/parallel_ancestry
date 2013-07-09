@@ -2,6 +2,6 @@
 
 class ::Object
   
-  include ::ParallelAncestry::Enable::Object
-      
+  extend ::ParallelAncestry::Enable::Object
+ 
 end

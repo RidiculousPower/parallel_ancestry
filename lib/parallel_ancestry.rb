@@ -57,4 +57,5 @@ end
 require_relative './post_requires.rb'
 
 ::ParallelAncestry.register_instance_parent( ::Object, ::Class )
+::ParallelAncestry.register_singleton_parent( ::Module, ::Object )
 ::ParallelAncestry.register_instance_parent( ::Module, ::Object )

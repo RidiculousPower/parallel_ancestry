@@ -33,9 +33,10 @@ module ::ParallelAncestry::Enable::Module
   #        Instance being registered as child.
   #
   def extend_object( hooked_instance )
-
-    ::ParallelAncestry.register_singleton_parent( hooked_instance, self )
-
+    
+    # we don't want to treat self as a parent for modules that extend themselves
+    ::ParallelAncestry.register_singleton_parent( hooked_instance, self ) unless hooked_instance.equal?( self )
+    
     super if defined?( super )
     
   end

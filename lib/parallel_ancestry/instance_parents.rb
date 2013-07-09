@@ -117,7 +117,13 @@ module ::ParallelAncestry::InstanceParents
                                      ancestry_struct = ancestry_struct( instance ),
                                      instance_parents = instance_parents( instance, ancestry_struct ) )
     
-    return instance_parents.include?( potential_parent )
+    return case instance
+      when ::Module
+        instance_parents.include?( potential_parent )
+      else
+        instance_parents.empty? ? potential_parent.equal?( instance.class )
+                                : instance_parents.include?( potential_parent )
+    end
     
   end
 
@@ -129,7 +135,7 @@ module ::ParallelAncestry::InstanceParents
                            ancestry_struct = ancestry_struct( instance ),
                            instance_parents = instance_parents( instance, ancestry_struct ) )
     
-    return instance_parents.include?( potential_parent ) ||
+    return is_immediate_instance_parent?( instance, potential_parent, ancestry_struct, instance_parents ) ||
            instance_parents.any? { |this_parent| is_instance_parent?( this_parent, potential_parent ) }
     
   end

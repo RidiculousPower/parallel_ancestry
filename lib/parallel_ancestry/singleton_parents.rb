@@ -44,7 +44,7 @@ module ::ParallelAncestry::SingletonParents
                                  parent_ancestry_struct = ancestry_struct( parent ),
                                  child_singleton_parents = singleton_parents( child, child_ancestry_struct ),
                                  parent_singleton_children = singleton_children( parent, parent_ancestry_struct ) )
-    
+
     # parent order determines who wins conflicts, so we keep youngest first
     child_singleton_parents.unshift( parent )
 
@@ -129,7 +129,7 @@ module ::ParallelAncestry::SingletonParents
                             ancestry_struct = ancestry_struct( instance ),
                             singleton_parents = singleton_parents( instance, ancestry_struct ) )
     
-    return singleton_parents.include?( potential_parent ) ||
+    return is_immediate_singleton_parent?( instance, potential_parent, ancestry_struct, singleton_parents ) ||
            singleton_parents.any? { |this_parent| is_singleton_parent?( this_parent, potential_parent ) }
     
   end

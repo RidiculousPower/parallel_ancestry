@@ -2,5 +2,7 @@
 
 module ::ParallelAncestry  
   module Enable
+    module Object
+    end
   end
 end

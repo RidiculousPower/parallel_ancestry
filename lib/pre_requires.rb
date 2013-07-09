@@ -2,6 +2,7 @@
 
 [
 
+  'parallel_ancestry/hash',
   'parallel_ancestry/array',
   'parallel_ancestry/array/unique_by_id',
   
