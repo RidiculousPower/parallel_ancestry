@@ -13,14 +13,15 @@ Gem::Specification.new do |spec|
   spec.email                     =  'asher@ridiculouspower.com'
   spec.homepage                  =  'http://rubygems.org/gems/parallel_ancestry'
 
-  spec.add_dependency            'module-cluster'
+  spec.add_dependency            'call_super'
+  spec.add_dependency            'pre_and_post_initialize'
   spec.add_dependency            'array-unique'
 
   spec.required_ruby_version     = ">= 1.9.1"
 
   spec.date                      = Date.today.to_s
   
-  spec.files                     = Dir[ '{lib,spec}/**/*',
+  spec.files                     = Dir[ '{lib,lib_ext,spec}/**/*',
                                         'README*', 
                                         'LICENSE*',
                                         'CHANGELOG*' ]

@@ -46,11 +46,11 @@ Parallel ancestry instances support registration and lookup of arbitrarily decla
 * has_parents?( instance )
 * has_children?( instance )
 * register_child_for_parent( child, parent )
-* ancestor( instance, & match_ancestor_block )
-* ancestor_chain( instance, & match_ancestor_block )
-* lowest_parents( instance, & match_ancestor_block )
-* highest_children( instance, & match_ancestor_block )
-* match_ancestor( instance, ancestor_match_block, & match_block )
+* parent( instance, & match_parent_block )
+* lowest_parents( instance, & match_parent_block )
+* highest_children( instance, & match_parent_block )
+* match_parent( instance, ancestor_match_block, & match_block )
+* ancestor_chain( instance, & match_parent_block )
 
 match_block is always a proc or lambda that will be passed the next ancestor as the single parameter and is expected to return true or false whether or not the ancestor matches the condition.
 
