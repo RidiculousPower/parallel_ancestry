@@ -2,16 +2,30 @@
 
 module ::ParallelAncestry::Enable::Object
 
-  ################
-  #  initialize  #
-  ################
+  extend ::PreAndPostInitialize
+
+  ####################
+  #  self.inherited  #
+  ####################
   
-  def initialize
+  def self.inherited( subclass )
+    
+    super if defined?( super )
     
     ::ParallelAncestry.register_singleton_parent( self, self.class )
 
-    super if defined?( super )
-    
   end
   
+  ####################
+  #  pre_initialize  #
+  ####################
+
+  def pre_initialize( *args, & block )
+
+    super
+
+    ::ParallelAncestry.register_instance_parent( self, self.class )
+    
+  end
+
 end

@@ -5,7 +5,7 @@
   'parallel_ancestry/array',
   'parallel_ancestry/array/unique_by_id',
   
-  'parallel_ancestry/enable',
+  'parallel_ancestry/enable/module',
   'parallel_ancestry/enable/object',
   'parallel_ancestry/instance_parents',
   'parallel_ancestry/instance_children',
