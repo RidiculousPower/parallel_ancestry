@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class ::ParallelAncestry::Array::UniqueByID < ::Array::UniqueByID
+class ::ParallelAncestry::Array::UniqueByID < ::Array::UniqueByID::Compositing
 
   InternalArrayClass = ::ParallelAncestry::Array
 
