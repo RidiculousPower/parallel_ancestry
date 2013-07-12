@@ -3,6 +3,7 @@
 [
 
   'parallel_ancestry/ancestors',
+  'parallel_ancestry/bootstrap',
   
   'parallel_ancestry/hash',
   'parallel_ancestry/array',

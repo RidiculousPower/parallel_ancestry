@@ -11,8 +11,7 @@ require_relative './pre_requires.rb'
 
 module ::ParallelAncestry
   extend ::ParallelAncestry::Ancestors
+  extend ::ParallelAncestry::Bootstrap
 end
-
-require_relative './bootstrap.rb'
 
 #require_relative './post_requires.rb'

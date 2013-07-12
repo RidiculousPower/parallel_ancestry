@@ -1,7 +1,6 @@
 # -*- encoding : utf-8 -*-
 
 require_relative '../lib/parallel_ancestry.rb'
-require_relative 'helpers/parents_children.rb'
 
 class ::ParallelAncestry::MockClass
 end
@@ -56,243 +55,145 @@ class ::ParallelAncestry::MockClassExtendedByInstanceOfModuleSubclass
 end
 
 describe ::ParallelAncestry do
+  
+  let( :parallel_ancestry ) { ::ParallelAncestry }
+  
+  context '================  Bootstrapping  ================' do
 
-  let( :instance_of_object ) { ::Object.new }
-  
-  let( :class_instance ) { ::ParallelAncestry::MockClass }
-  let( :instance_of_class ) { ::ParallelAncestry::MockClass.new }
-  
-  let( :subclass ) { ::ParallelAncestry::MockSubclass }
-  let( :instance_of_subclass ) { ::ParallelAncestry::MockSubclass.new }
-  
-  let( :module_instance ) { ::ParallelAncestry::MockModule }
-  let( :module_extended_by_module ) { ::ParallelAncestry::MockModuleExtendedByModule }
-  let( :module_including_module ) { ::ParallelAncestry::MockModuleIncludingModule }
-  let( :class_extended_by_module ) { ::ParallelAncestry::MockClassExtendedByModule }
-  let( :class_including_module ) { ::ParallelAncestry::MockClassIncludingModule }
-  
-  let( :module_class ) { ::ParallelAncestry::MockModuleClass }
-  let( :instance_of_module_class ) { ::ParallelAncestry::InstanceOfMockModuleClass }
-  let( :module_extended_by_instance_of_module_class ) { ::ParallelAncestry::MockModuleExtendedByInstanceOfModuleClass }
-  let( :module_including_instance_of_module_class ) { ::ParallelAncestry::MockModuleIncludingInstanceOfModuleClass }
-  let( :class_extended_by_instance_of_module_class ) { ::ParallelAncestry::MockClassExtendedByInstanceOfModuleClass }
-  let( :class_including_instance_of_module_class ) { ::ParallelAncestry::MockClassIncludingInstanceOfModuleClass }
-  
-  let( :module_subclass ) { ::ParallelAncestry::MockModuleSubclass }
-  let( :instance_of_module_subclass ) { ::ParallelAncestry::InstanceOfMockModuleSubclass }
-  let( :module_extended_by_instance_of_module_subclass ) { ::ParallelAncestry::MockModuleExtendedByInstanceOfModuleSubclass }
-  let( :module_including_instance_of_module_subclass ) { ::ParallelAncestry::MockModuleIncludingInstanceOfModuleSubclass }
-  let( :class_extended_by_instance_of_module_subclass ) { ::ParallelAncestry::MockClassExtendedByInstanceOfModuleSubclass }
-  let( :class_including_instance_of_module_subclass ) { ::ParallelAncestry::MockClassIncludingInstanceOfModuleSubclass }
+    context 'BasicObject bootstrapping' do
+      it 'is bootstrapped for instance parents [ BasicObject ]' do
+        parallel_ancestry.instance_parents( BasicObject ).should == [ BasicObject ]
+      end
+      it 'is bootstrapped for singleton parents that inherit from Class instance parents' do
+        parallel_ancestry.parents( BasicObject ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
+    end
 
-  context 'Class' do
-    it 'does not have Object as an instance parent (to avoid loops), even though properly speaking Class is an Object instance' do
-      ::Object.should_not be_instance_parent( ::Class )
+    context 'Kernel bootstrapping' do
+      it 'is bootstrapped for instance parents [ Kernel ]' do
+        parallel_ancestry.instance_parents( Kernel ).should == [ Kernel ]
+      end
+      it 'is bootstrapped for singleton parents that inherit from module instance parents' do
+        parallel_ancestry.parents( Kernel ).should == [ Module, Object, Kernel, BasicObject ]
+      end
     end
-    it 'does not have Object as a singleton parent' do
-      ::Object.should_not be_singleton_parent( ::Class )
+
+    context 'Object bootstrapping' do
+      it 'is bootstrapped for instance parents [ Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( Object ).should == [ Object, Kernel, BasicObject ]
+      end
+      it 'is bootstrapped for singleton parents that inherit from instance parents' do
+        parallel_ancestry.parents( Object ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
     end
-    it 'does not have Module as an instance parent (to avoid loops), even though properly speaking Class is an Module instance' do
-      ::Module.should_not be_instance_parent( ::Class )
+
+    context 'Class bootstrapping' do
+      it 'is bootstrapped for instance parents [ Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'is bootstrapped for singleton parents that inherit from instance parents' do
+        parallel_ancestry.parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
     end
-    it 'does not have Module as a singleton parent' do
-      ::Module.should_not be_singleton_parent( ::Class )
-    end
-    it 'has Object as an instance child' do
-      ::Object.should be_instance_child( ::Class )
-    end
-    it 'does not have Object as an singleton child' do
-      ::Object.should_not be_singleton_child( ::Class )
-    end
-    it 'has Module as an instance child' do
-      ::Module.should be_instance_child( ::Class )
-    end
-    it 'does not have Module as an singleton child' do
-      ::Module.should_not be_singleton_child( ::Class )
-    end
-    it 'does not have instances of Object as a singleton child' do
-      instance_of_object.should_not be_singleton_child( ::Class )
-    end
-    it 'does not have instances of Object as an instance child' do
-      instance_of_object.should_not be_instance_child( ::Class )
-    end
-  end
   
-  context 'Object' do
-    it 'has Class as an instance parent' do
-      ::Class.should be_instance_parent( ::Object )
+    context 'Module bootstrapping' do
+      it 'is bootstrapped for instance parents [ Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'is bootstrapped for singleton parents that inherit from instance parents' do
+        parallel_ancestry.parents( Module ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
     end
-    it 'does not have Class as a singleton parent' do
-      ::Class.should_not be_singleton_parent( ::Object )
-    end
-    it 'does not have Module as an instance parent (to avoid loops), even though properly speaking any Class instance is a Module instance' do
-      ::Module.should_not be_instance_parent( ::Object )
-    end
-    it 'does not have Module as a singleton parent (to avoid loops), even though properly speaking any Class instance is a Module instance' do
-      ::Module.should_not be_singleton_parent( ::Object )
-    end
-    it 'has Module as a singleton child' do
-      ::Module.should be_singleton_child( ::Object )
-    end
-    it 'has Module as an instance child' do
-      ::Module.should be_instance_child( ::Object )
-    end
-    it 'does not have instances of Object as a singleton child' do
-      instance_of_object.should_not be_singleton_child( ::Object )
-    end
-    it 'has instances of Object as an instance child' do
-      instance_of_object.should be_instance_child( ::Object )
-    end
+    
   end
 
-  context 'Module' do
-    it 'has Class as an instance parent' do
-      ::Class.should be_instance_parent( ::Module )
-    end
-    it 'does not have Class as a singleton parent' do
-      ::Class.should_not be_singleton_parent( ::Module )
-    end
-    it 'has Object as an instance parent' do
-      ::Object.should be_instance_parent( ::Module )
-    end
-    it 'has Object as a singleton parent' do
-      ::Object.should be_singleton_parent( ::Module )
-    end
-    it 'does not have instances of Object as a singleton child' do
-      instance_of_object.should_not be_singleton_child( ::Module )
-    end
-    it 'does not have instances of Object as an instance child' do
-      instance_of_object.should_not be_instance_child( ::Module )
-    end
-  end
+  context '================  General Purpose  ================' do
 
-  context 'class' do
-    it 'has Object as singleton parent' do
-      ::Object.should be_singleton_parent( class_instance )
-    end
-    it 'has Object as instance parent' do
-      ::Object.should be_instance_parent( class_instance )
-    end
-    it 'has Class as instance parent' do
-      ::Class.should be_instance_parent( class_instance )
-    end
-    it 'does not have Class as singleton parent' do
-      ::Class.should_not be_singleton_parent( class_instance )
-    end
-    it 'does not have Module as singleton parent' do
-      ::Module.should_not be_singleton_parent( class_instance )
-    end
-    it 'does not have Module as instance parent (even though in Ruby a class is a module)' do
-      ::Module.should_not be_instance_parent( class_instance )
-    end
-    it 'does not have instances of Object as a singleton child' do
-      instance_of_object.should_not be_singleton_child( class_instance )
-    end
-    it 'does not have instances of Object as an instance child' do
-      instance_of_object.should_not be_instance_child( class_instance )
-    end
-  end
+    let( :instance_of_object ) { ::Object.new }
 
-  context 'instance of class' do
-    it 'does not have Class as instance parent' do
-      ::Class.should_not be_instance_parent( instance_of_class )
-    end
-    it 'does not have Class as singleton parent' do
-      ::Class.should_not be_singleton_parent( instance_of_class )
-    end
-    it 'has Object as instance parent' do
-      ::Object.should be_instance_parent( instance_of_class )
-    end
-    it 'does not have Object as singleton parent' do
-      ::Object.should_not be_singleton_parent( instance_of_class )
-    end
-    it 'does not have Module as instance parent' do
-      ::Module.should_not be_instance_parent( instance_of_class )
-    end
-    it 'does not have Module as singleton parent' do
-      ::Module.should_not be_singleton_parent( instance_of_class )
-    end
-    it 'has its class as instance parent' do
-      class_instance.should be_instance_parent( instance_of_class )
-    end
-    it 'does not have its class as singleton parent' do
-      class_instance.should_not be_singleton_parent( instance_of_class )
-    end
-  end
-  
-  context 'subclass' do
-    it 'has Object as singleton parent' do
-      ::Object.should be_singleton_parent( subclass )
-    end
-    it 'has Object as instance parent' do
-      ::Object.should be_instance_parent( subclass )
-    end
-    it 'has Class as instance parent' do
-      ::Class.should be_instance_parent( subclass )
-    end
-    it 'does not have Class as singleton parent' do
-      ::Class.should_not be_singleton_parent( subclass )
-    end
-    it 'does not have Module as singleton parent' do
-      ::Module.should_not be_singleton_parent( subclass )
-    end
-    it 'does not have Module as instance parent (even though in Ruby a class is a module)' do
-      ::Module.should_not be_instance_parent( subclass )
-    end
-    it 'does not have instances of Object as a singleton child' do
-      class_instance.should_not be_singleton_child( subclass )
-    end
-    it 'does not have instances of Object as an instance child' do
-      class_instance.should_not be_instance_child( subclass )
-    end
-  end
-  
-  context 'instance of subclass' do
-  end
+    let( :class_instance ) { parallel_ancestry::MockClass }
+    let( :instance_of_class ) { parallel_ancestry::MockClass.new }
 
-  context 'module' do
-  end
-  
-  context 'module extended by module' do
-  end
-  
-  context 'module including module' do
-  end
-  
-  context 'class extended by module' do
-  end
-  
-  context 'class including module' do
-  end
+    let( :subclass ) { parallel_ancestry::MockSubclass }
+    let( :instance_of_subclass ) { parallel_ancestry::MockSubclass.new }
 
-  context 'instance of class extended by module' do
-  end
+    let( :module_instance ) { parallel_ancestry::MockModule }
+    let( :module_extended_by_module ) { parallel_ancestry::MockModuleExtendedByModule }
+    let( :module_including_module ) { parallel_ancestry::MockModuleIncludingModule }
+    let( :class_extended_by_module ) { parallel_ancestry::MockClassExtendedByModule }
+    let( :class_including_module ) { parallel_ancestry::MockClassIncludingModule }
 
-  context 'instance of subclass extended by module' do
-  end
-  
-  context 'class < Module' do
-  end
+    let( :module_class ) { parallel_ancestry::MockModuleClass }
+    let( :instance_of_module_class ) { parallel_ancestry::InstanceOfMockModuleClass }
+    let( :module_extended_by_instance_of_module_class ) { parallel_ancestry::MockModuleExtendedByInstanceOfModuleClass }
+    let( :module_including_instance_of_module_class ) { parallel_ancestry::MockModuleIncludingInstanceOfModuleClass }
+    let( :class_extended_by_instance_of_module_class ) { parallel_ancestry::MockClassExtendedByInstanceOfModuleClass }
+    let( :class_including_instance_of_module_class ) { parallel_ancestry::MockClassIncludingInstanceOfModuleClass }
 
-  context 'instance of class < Module' do
-  end
+    let( :module_subclass ) { parallel_ancestry::MockModuleSubclass }
+    let( :instance_of_module_subclass ) { parallel_ancestry::InstanceOfMockModuleSubclass }
+    let( :module_extended_by_instance_of_module_subclass ) { parallel_ancestry::MockModuleExtendedByInstanceOfModuleSubclass }
+    let( :module_including_instance_of_module_subclass ) { parallel_ancestry::MockModuleIncludingInstanceOfModuleSubclass }
+    let( :class_extended_by_instance_of_module_subclass ) { parallel_ancestry::MockClassExtendedByInstanceOfModuleSubclass }
+    let( :class_including_instance_of_module_subclass ) { parallel_ancestry::MockClassIncludingInstanceOfModuleSubclass }
 
-  context 'instance of class extended by instance of class < Module' do
-  end
+    context 'class' do
+    end
 
-  context 'instance of subclass extended by instance of class < Module' do
-  end
-  
-  context 'subclass of class < Module' do
-  end 
-  
-  context 'instance of subclass of class < Module' do
-  end
+    context 'instance of class' do
+    end
 
-  context 'instance of class extended by instance of subclass of class < Module' do
-  end
+    context 'subclass' do
+    end
 
-  context 'instance of subclass extended by instance of subclass of class < Module' do
+    context 'instance of subclass' do
+    end
+
+    context 'module' do
+    end
+
+    context 'module extended by module' do
+    end
+
+    context 'module including module' do
+    end
+
+    context 'class extended by module' do
+    end
+
+    context 'class including module' do
+    end
+
+    context 'instance of class extended by module' do
+    end
+
+    context 'instance of subclass extended by module' do
+    end
+
+    context 'class < Module' do
+    end
+
+    context 'instance of class < Module' do
+    end
+
+    context 'instance of class extended by instance of class < Module' do
+    end
+
+    context 'instance of subclass extended by instance of class < Module' do
+    end
+
+    context 'subclass of class < Module' do
+    end 
+
+    context 'instance of subclass of class < Module' do
+    end
+
+    context 'instance of class extended by instance of subclass of class < Module' do
+    end
+
+    context 'instance of subclass extended by instance of subclass of class < Module' do
+    end
+
   end
 
 end

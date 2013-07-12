@@ -2,26 +2,6 @@
 
 module ::ParallelAncestry::SingletonParents
 
-  #############
-  #  parents  #
-  #############
-  
-  ###
-  # Return a list of parents for provided object.
-  #
-  # @param [Object] instance 
-  #
-  #        Object instance.
-  #
-  # @return [Array<Object>] An array containing references to immediate parents for any configuration.
-  #
-  def parents( instance, 
-               ancestry_struct = ancestry_struct( instance ) )
-    
-    return ancestry_struct.parents ||= ::ParallelAncestry::Array::UniqueByID.new( self )
-
-  end
-
   #####################
   #  register_parent  #
   #####################

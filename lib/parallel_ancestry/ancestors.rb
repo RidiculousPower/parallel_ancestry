@@ -30,14 +30,14 @@ module ::ParallelAncestry::Ancestors
   #
   #         Struct for instance.
   #
-  def parents( instance )
+  def parents( instance, create_if_needed = true, register_parser_modules = true, register_self = true )
 
-    unless parents_array = @parents_hash[ instance_id = instance.__id__ ]
+    unless parents_array = @parents_hash[ instance_id = instance.__id__ ] or ! create_if_needed
       
       @parents_hash[ instance_id ] = parents_array = self::Array::UniqueByID.new
 
       # Insert self in order
-      parents_array.push( instance )
+      parents_array.push( instance ) if register_self
 
       # Most objects will register by hook. 
       # This is true for:
@@ -46,7 +46,7 @@ module ::ParallelAncestry::Ancestors
       # * instances of classes inheriting from Object
       # This is not true for:
       # * instances of Module created by parser 
-      if instance.class.equal?( ::Module )
+      if register_parser_modules and instance.class.equal?( ::Module )
         module_parents = parents( ::Module )
         parents_array.register_parent( module_parents, 0 )
       end
@@ -72,9 +72,9 @@ module ::ParallelAncestry::Ancestors
   #
   #         Struct for instance.
   #
-  def instance_parents( instance )
+  def instance_parents( instance, create_if_needed = true, register_parser_modules = true )
 
-    unless instance_parents_array = @instance_parents_hash[ instance_id = instance.__id__ ]
+    unless instance_parents_array = @instance_parents_hash[ instance_id = instance.__id__ ] or ! create_if_needed
 
       @instance_parents_hash[ instance_id ] = instance_parents_array = self::Array::UniqueByID.new
 
@@ -88,7 +88,7 @@ module ::ParallelAncestry::Ancestors
       # * instances of classes inheriting from Object
       # This is not true for:
       # * instances of Module created by parser 
-      if instance.class.equal?( ::Module )
+      if register_parser_modules and instance.class.equal?( ::Module )
         module_parents = instance_parents( ::Module )
         instance_parents_array.register_parent( module_parents )
       end
