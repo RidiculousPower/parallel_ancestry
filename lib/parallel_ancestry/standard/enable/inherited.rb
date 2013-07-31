@@ -7,11 +7,10 @@ module ::ParallelAncestry::Standard::Enable::Inherited
   ###############
   
   def inherited( subclass )
+
+    ::ParallelAncestry::Standard.register_subclass( subclass, self )
     
     super if defined?( super )
-
-    ::ParallelAncestry::Standard.register_parent( subclass, self )
-    ::ParallelAncestry::Standard.register_instance_parent( subclass, self )
 
   end
   

@@ -5,11 +5,11 @@ require_relative '../setup.rb'
 
 describe 'ParallelAncestry::Standard Base' do
   
-  initialize_test_setup
+  initialize_base_test_setup
   
   context 'module' do
     it 'singleton parents should be [ module, Module, Object, Kernel, BasicObject ]' do
-      parallel_ancestry.parents( module_instance ).should == [ module_instance, ::Module, ::ParallelAncestry::Enable::IncludedExtended, ::Object, ::Kernel, ::BasicObject ]
+      parallel_ancestry.parents( module_instance ).should == [ module_instance, ::Module, ::Object, ::Kernel, ::BasicObject ]
     end
     it 'instance parents should be [ module ]' do
       parallel_ancestry.instance_parents( module_instance ).should == [ module_instance ]

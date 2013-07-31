@@ -59,4 +59,31 @@ module ::ParallelAncestry::Common::Unregister
 
   end
 
+  ###################################
+  #  unregister_instance_of_parent  #
+  ###################################
+  
+  ###
+  # Unregister instance as instance of another instance.
+  #
+  # @param [Object] instance 
+  #
+  #        Instance for which parent is being registered.
+  #
+  # @param [Object] parent 
+  #
+  #        Parent instance.
+  #
+  # @return Self.
+  #
+  def unregister_instance_of_parent( instance, parent )
+
+    if parents = parents( instance, false )
+      parents.unregister_parent( instance_parents( parent ) )
+    end
+    
+    return self
+
+  end
+
 end

@@ -15,7 +15,7 @@ module ::ParallelAncestry::Standard::Enable::IncludedExtended
   #
   def append_features( hooked_instance )
 
-    ::ParallelAncestry::Standard.register_instance_parent( hooked_instance, self )
+    ::ParallelAncestry::Standard.register_include( hooked_instance, self )
 
     super if defined?( super )
     
@@ -36,7 +36,7 @@ module ::ParallelAncestry::Standard::Enable::IncludedExtended
     
     # we don't want to treat self as a parent for modules that extend themselves
     unless hooked_instance.equal?( self )
-      ::ParallelAncestry::Standard.register_parent( hooked_instance, self )
+      ::ParallelAncestry::Standard.register_extend( hooked_instance, self )
     end
     
     super if defined?( super )

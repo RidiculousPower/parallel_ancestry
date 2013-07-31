@@ -5,6 +5,8 @@ require_relative 'common.rb'
 
 module ::ParallelAncestry::IncludeActsLikeSubclass
   module Enable
+    module IncludedExtended
+    end
   end
   extend ::ParallelAncestry::Common
 end
@@ -12,7 +14,6 @@ end
 [
   'include_acts_like_subclass/register',
   'include_acts_like_subclass/unregister',
-  'include_acts_like_subclass/enable/included_extended',
   'include_acts_like_subclass/enable/inherited'
 ].each { |this_file| require_relative( this_file << '.rb' ) }
 
@@ -28,3 +29,7 @@ end
 class ::Module
   include ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
 end
+
+[
+  'include_acts_like_subclass/enable/included_extended'
+].each { |this_file| require_relative( this_file << '.rb' ) }

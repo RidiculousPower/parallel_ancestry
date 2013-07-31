@@ -10,7 +10,7 @@ module ::ParallelAncestry::Common::Register
   #####################
   
   ###
-  # Register instance as child of another instance.
+  # Register instance as child of another instance (singleton to singleton).
   #
   # @param [Object] instance 
   #
@@ -35,7 +35,7 @@ module ::ParallelAncestry::Common::Register
   ##############################
   
   ###
-  # Register instance as child of another instance.
+  # Register instance as child of another instance (instance to instance).
   #
   # @param [Object] instance 
   #
@@ -50,6 +50,31 @@ module ::ParallelAncestry::Common::Register
   def register_instance_parent( instance, parent )
 
     instance_parents( instance ).register_parent( instance_parents( parent ), 1 )
+
+    return self
+
+  end
+
+  #################################
+  #  register_instance_of_parent  #
+  #################################
+  
+  ###
+  # Register instance as an instance of another instance (instance crosses to singleton).
+  #
+  # @param [Object] instance 
+  #
+  #        Instance for which parent is being registered.
+  #
+  # @param [Object] parent 
+  #
+  #        Parent instance.
+  #
+  # @return Self.
+  #
+  def register_instance_of_parent( instance, parent )
+
+    parents( instance ).register_parent( instance_parents( parent ), 1 )
 
     return self
 
@@ -82,7 +107,7 @@ module ::ParallelAncestry::Common::Register
 
   def register_extend( instance, extending_module )
 
-    register_parent( instance, extending_module )
+    register_instance_of_parent( instance, extending_module )
 
   end
 

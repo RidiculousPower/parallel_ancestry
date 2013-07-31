@@ -7,12 +7,13 @@ require_relative 'common.rb'
 
 module ::ParallelAncestry::Standard
   module Enable
+    module IncludedExtended
+    end
   end
   extend ::ParallelAncestry::Common
 end
 
 [
-  'standard/enable/included_extended',
   'standard/enable/inherited'
 ].each { |this_file| require_relative( this_file << '.rb' ) }
 
@@ -23,3 +24,7 @@ end
 class ::Module
   include ::ParallelAncestry::Standard::Enable::IncludedExtended
 end
+
+[
+  'standard/enable/included_extended'
+].each { |this_file| require_relative( this_file << '.rb' ) }
