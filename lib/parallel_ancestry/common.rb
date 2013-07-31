@@ -11,12 +11,14 @@ end
 [
   'common/ancestors',
   'common/bootstrap',
-  'common/register'
+  'common/register',
+  'common/unregister'
 ].each { |this_file| require_relative( this_file << '.rb' ) }
 
 module ::ParallelAncestry::Common
 
   include ::ParallelAncestry::Common::Register
+  include ::ParallelAncestry::Common::Unregister
 
   ###################
   #  self.extended  #

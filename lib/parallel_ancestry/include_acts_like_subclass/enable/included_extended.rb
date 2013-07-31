@@ -15,7 +15,7 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
   #
   def append_features( hooked_instance )
 
-    ::ParallelAncestry.register_instance_parent( hooked_instance, self )
+    ::ParallelAncestry::IncludeActsLikeSubclass.register_instance_parent( hooked_instance, self )
 
     super if defined?( super )
     
@@ -35,7 +35,9 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
   def extend_object( hooked_instance )
     
     # we don't want to treat self as a parent for modules that extend themselves
-    ::ParallelAncestry.register_singleton_parent( hooked_instance, self ) unless hooked_instance.equal?( self )
+    unless hooked_instance.equal?( self )
+      ::ParallelAncestry::IncludeActsLikeSubclass.register_singleton_parent( hooked_instance, self )
+    end
     
     super if defined?( super )
     

@@ -111,7 +111,7 @@ module ::ParallelAncestry::Common::Ancestors
   #
   def register_parent( instance, parent )
 
-    parents( instance ).register_parent( parent, 1 )
+    parents( instance ).register_parent( parents( parent ), 1 )
     
     return self
 
@@ -138,7 +138,7 @@ module ::ParallelAncestry::Common::Ancestors
   def unregister_parent( instance, parent )
 
     if parents = parents( instance, false )
-      parents.unregister_parent( parent )
+      parents.unregister_parent( parents( parent ) )
     end
     
     return self
@@ -164,7 +164,7 @@ module ::ParallelAncestry::Common::Ancestors
   #
   def register_instance_parent( instance, parent )
 
-    instance_parents( instance ).register_parent( parent, 1 )
+    instance_parents( instance ).register_parent( instance_parents( parent ), 1 )
 
     return self
 
@@ -191,7 +191,7 @@ module ::ParallelAncestry::Common::Ancestors
   def unregister_instance_parent( instance, parent )
 
     if parents = instance_parents( instance, false )
-      parents.unregister_parent( parent )
+      parents.unregister_parent( instance_parents( parent ) )
     end
     
     return self

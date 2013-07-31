@@ -12,16 +12,14 @@ module ::ParallelAncestry::Standard
 end
 
 [
-  'standard/enable/extend',
-  'standard/enable/include',
   'standard/enable/included_extended',
   'standard/enable/inherited'
 ].each { |this_file| require_relative( this_file << '.rb' ) }
 
-#class ::Module
-#  include ::ParallelAncestry::Standard::Enable::Module
-#end
-#
-#class ::Object
-#  extend ::ParallelAncestry::Standard::Enable::Object
-#end
+class ::Object
+  extend ::ParallelAncestry::Standard::Enable::Inherited
+end
+
+class ::Module
+  include ::ParallelAncestry::Standard::Enable::IncludedExtended
+end
