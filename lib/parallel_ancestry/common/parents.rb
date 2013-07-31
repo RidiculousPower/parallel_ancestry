@@ -39,6 +39,14 @@ module ::ParallelAncestry::Common::Parents
       parents_array = create_parents( instance )
       # Insert self in order
       parents_array.push( instance )
+      case instance
+        when ::Module
+          if instance.class.equal?( ::Module )
+            parents_array.register_parent( instance_parents( ::Module ), 1 )
+          end
+        else
+          parents_array.register_parent( instance_parents( instance.class ), 1 )
+      end
     end
 
     return parents_array
