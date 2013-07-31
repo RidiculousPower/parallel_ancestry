@@ -1,6 +1,9 @@
 # -*- encoding : utf-8 -*-
 
-module ::ParallelAncestry::Bootstrap
+###
+# Extends ParallelAncestry singleton to bootstrap ancestor hierarchy.
+#
+module ::ParallelAncestry::Common::Bootstrap
   
   ###################
   #  self.extended  #
@@ -27,7 +30,7 @@ module ::ParallelAncestry::Bootstrap
       # [ Object ]
       object_instance_parents       = instance_parents( ::Object )
       # [ Kernel ]
-      kernel_instance_parents       = instance_parents( ::Kernel, true, false )
+      kernel_instance_parents       = instance_parents( ::Kernel, true )
       # [ Class ]
       class_instance_parents        = instance_parents( ::Class )
       # [ Module ]
@@ -65,15 +68,15 @@ module ::ParallelAncestry::Bootstrap
     #---------------------------#
 
       # [ BasicObject ]
-      basic_object_parents = parents( ::BasicObject, true, false, false )
+      basic_object_parents = parents( ::BasicObject, true, false )
       # [ Object ]
-      object_parents       = parents( ::Object, true, false, false )
+      object_parents       = parents( ::Object, true, false )
       # [ Kernel ]
-      kernel_parents       = parents( ::Kernel, true, false, false )
+      kernel_parents       = parents( ::Kernel, true, false )
       # [ Class ]
       class_parents        = parents( ::Class )
       # [ Module ]
-      module_parents       = parents( ::Module, true, false, false )
+      module_parents       = parents( ::Module, true, false )
 
       #---------#
       #  Class  #

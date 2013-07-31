@@ -61,47 +61,47 @@ describe ::ParallelAncestry do
   context '================  Bootstrapping  ================' do
 
     context 'BasicObject bootstrapping' do
-      it 'is bootstrapped for instance parents [ BasicObject ]' do
-        parallel_ancestry.instance_parents( BasicObject ).should == [ BasicObject ]
-      end
       it 'is bootstrapped for singleton parents that inherit from Class instance parents' do
         parallel_ancestry.parents( BasicObject ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'is bootstrapped for instance parents [ BasicObject ]' do
+        parallel_ancestry.instance_parents( BasicObject ).should == [ BasicObject ]
       end
     end
 
     context 'Kernel bootstrapping' do
+      it 'is bootstrapped for singleton parents that inherit from Module instance parents' do
+        parallel_ancestry.parents( Kernel ).should == [ Module, Object, Kernel, BasicObject ]
+      end
       it 'is bootstrapped for instance parents [ Kernel ]' do
         parallel_ancestry.instance_parents( Kernel ).should == [ Kernel ]
-      end
-      it 'is bootstrapped for singleton parents that inherit from module instance parents' do
-        parallel_ancestry.parents( Kernel ).should == [ Module, Object, Kernel, BasicObject ]
       end
     end
 
     context 'Object bootstrapping' do
+      it 'is bootstrapped for singleton parents that inherit from Class instance parents' do
+        parallel_ancestry.parents( Object ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
       it 'is bootstrapped for instance parents [ Object, Kernel, BasicObject ]' do
         parallel_ancestry.instance_parents( Object ).should == [ Object, Kernel, BasicObject ]
-      end
-      it 'is bootstrapped for singleton parents that inherit from instance parents' do
-        parallel_ancestry.parents( Object ).should == [ Class, Module, Object, Kernel, BasicObject ]
       end
     end
 
     context 'Class bootstrapping' do
+      it 'is bootstrapped for singleton parents that inherit from Class instance parents' do
+        parallel_ancestry.parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
       it 'is bootstrapped for instance parents [ Class, Module, Object, Kernel, BasicObject ]' do
         parallel_ancestry.instance_parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
-      end
-      it 'is bootstrapped for singleton parents that inherit from instance parents' do
-        parallel_ancestry.parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
       end
     end
   
     context 'Module bootstrapping' do
-      it 'is bootstrapped for instance parents [ Class, Module, Object, Kernel, BasicObject ]' do
-        parallel_ancestry.instance_parents( Class ).should == [ Class, Module, Object, Kernel, BasicObject ]
-      end
-      it 'is bootstrapped for singleton parents that inherit from instance parents' do
+      it 'is bootstrapped for singleton parents that inherit from Class instance parents' do
         parallel_ancestry.parents( Module ).should == [ Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'is bootstrapped for instance parents [ Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( Module ).should == [ Module, Object, Kernel, BasicObject ]
       end
     end
     
@@ -137,19 +137,49 @@ describe ::ParallelAncestry do
     let( :class_extended_by_instance_of_module_subclass ) { parallel_ancestry::MockClassExtendedByInstanceOfModuleSubclass }
     let( :class_including_instance_of_module_subclass ) { parallel_ancestry::MockClassIncludingInstanceOfModuleSubclass }
 
-    context 'class' do
+    context 'class instance (ie. SomeClass)' do
+      it 'singleton parents are [ MockClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( class_instance ).should == [ class_instance, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are [ MockClass, Object, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( class_instance ).should == [ class_instance, Object, Class, Module, Object, Kernel, BasicObject ]
+      end
     end
 
-    context 'instance of class' do
+    context 'instance of class instance (ie <#SomeClass>)' do
+      it 'singleton parents are [ self, MockClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( instance_of_class ).should == [ instance_of_class, class_instance, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are the same as singleton parents' do
+        parallel_ancestry.instance_parents( instance_of_class ).should be parallel_ancestry.parents( instance_of_class )
+      end
     end
 
     context 'subclass' do
+      it 'singleton parents are [ MockSubclass, MockClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( subclass ).should == [ subclass, class_instance, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are [ MockSubclass, MockClass, Object, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( subclass ).should == [ subclass, class_instance, Object, Class, Module, Object, Kernel, BasicObject ]
+      end
     end
 
     context 'instance of subclass' do
+      it 'singleton parents are [ MockSubclass, MockClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( instance_of_subclass ).should == [ instance_of_subclass, subclass, class_instance, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are the same as singleton parents' do
+        parallel_ancestry.instance_parents( instance_of_subclass ).should be parallel_ancestry.parents( instance_of_subclass )
+      end
     end
 
     context 'module' do
+      it 'singleton parents are [ Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( module_instance ).should == [ Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are [ MockClass, Object, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( module_instance ).should == [ class_instance, Object, Class, Module, Object, Kernel, BasicObject ]
+      end
     end
 
     context 'module extended by module' do
@@ -171,6 +201,12 @@ describe ::ParallelAncestry do
     end
 
     context 'class < Module' do
+      it 'singleton parents are [ MockModuleClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( class_instance ).should == [ parallel_ancestry::MockSubclass, parallel_ancestry::MockModuleSubclass, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are [ MockModuleClass, Object, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( class_instance ).should == [ parallel_ancestry::MockSubclass, parallel_ancestry::MockModuleSubclass, Object, Class, Module, Object, Kernel, BasicObject ]
+      end
     end
 
     context 'instance of class < Module' do
@@ -183,7 +219,13 @@ describe ::ParallelAncestry do
     end
 
     context 'subclass of class < Module' do
-    end 
+      it 'singleton parents are [ MockModuleSubclass, MockModuleClass, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.parents( class_instance ).should == [ parallel_ancestry::MockModuleSubclass, parallel_ancestry::MockModuleClass, Class, Module, Object, Kernel, BasicObject ]
+      end
+      it 'instance parents are [ MockModuleSubclass, MockModuleClass, Object, Class, Module, Object, Kernel, BasicObject ]' do
+        parallel_ancestry.instance_parents( class_instance ).should == [ parallel_ancestry::MockModuleSubclass, parallel_ancestry::MockModuleClass, Object, Class, Module, Object, Kernel, BasicObject ]
+      end
+    end
 
     context 'instance of subclass of class < Module' do
     end
