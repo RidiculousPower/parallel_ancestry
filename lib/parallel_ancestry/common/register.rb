@@ -5,6 +5,56 @@
 #
 module ::ParallelAncestry::Common::Register
 
+  #####################
+  #  register_parent  #
+  #####################
+  
+  ###
+  # Register instance as child of another instance.
+  #
+  # @param [Object] instance 
+  #
+  #        Instance for which parent is being registered.
+  #
+  # @param [Object] parent 
+  #
+  #        Parent instance.
+  #
+  # @return Self.
+  #
+  def register_parent( instance, parent )
+
+    parents( instance ).register_parent( parents( parent ), 1 )
+    
+    return self
+
+  end
+
+  ##############################
+  #  register_instance_parent  #
+  ##############################
+  
+  ###
+  # Register instance as child of another instance.
+  #
+  # @param [Object] instance 
+  #
+  #        Instance for which parent is being registered.
+  #
+  # @param [Object] parent 
+  #
+  #        Parent instance.
+  #
+  # @return Self.
+  #
+  def register_instance_parent( instance, parent )
+
+    instance_parents( instance ).register_parent( instance_parents( parent ), 1 )
+
+    return self
+
+  end
+
   #######################
   #  register_subclass  #
   #######################

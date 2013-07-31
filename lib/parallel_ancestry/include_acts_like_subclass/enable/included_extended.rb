@@ -36,7 +36,7 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
     
     # we don't want to treat self as a parent for modules that extend themselves
     unless hooked_instance.equal?( self )
-      ::ParallelAncestry::IncludeActsLikeSubclass.register_singleton_parent( hooked_instance, self )
+      ::ParallelAncestry::IncludeActsLikeSubclass.register_parent( hooked_instance, self )
     end
     
     super if defined?( super )

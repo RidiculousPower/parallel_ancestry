@@ -14,6 +14,26 @@ module ::ParallelAncestry::Common::Bootstrap
     instance.bootstrap
     
   end
+
+  ####################
+  #  create_parents  #
+  ####################
+  
+  def create_parents( instance )
+    
+    return @parents_hash[ instance.__id__ ] = ::Array::UniqueByID::Compositing.new( nil, instance )
+    
+  end
+  
+  #############################
+  #  create_instance_parents  #
+  #############################
+  
+  def create_instance_parents( instance )
+    
+    return @instance_parents_hash[ instance.__id__ ] = ::Array::UniqueByID::Compositing.new( nil, instance )
+    
+  end
   
   ###############
   #  bootstrap  #
@@ -26,15 +46,20 @@ module ::ParallelAncestry::Common::Bootstrap
     #--------------------------#
 
       # [ BasicObject ]
-      basic_object_instance_parents = instance_parents( ::BasicObject )
+      basic_object_instance_parents = create_instance_parents( ::BasicObject )
+      basic_object_instance_parents.push( ::BasicObject )
       # [ Object ]
-      object_instance_parents       = instance_parents( ::Object )
+      object_instance_parents       = create_instance_parents( ::Object )
+      object_instance_parents.push( ::Object )
       # [ Kernel ]
-      kernel_instance_parents       = instance_parents( ::Kernel, true )
+      kernel_instance_parents       = create_instance_parents( ::Kernel )
+      kernel_instance_parents.push( ::Kernel )
       # [ Class ]
-      class_instance_parents        = instance_parents( ::Class )
+      class_instance_parents        = create_instance_parents( ::Class )
+      class_instance_parents.push( ::Class )
       # [ Module ]
-      module_instance_parents       = instance_parents( ::Module )
+      module_instance_parents       = create_instance_parents( ::Module )
+      module_instance_parents.push( ::Module )
 
       #-----------------------#
       #  instances of Object  #
@@ -68,15 +93,16 @@ module ::ParallelAncestry::Common::Bootstrap
     #---------------------------#
 
       # [ BasicObject ]
-      basic_object_parents = parents( ::BasicObject, true, false )
+      basic_object_parents = create_parents( ::BasicObject )
       # [ Object ]
-      object_parents       = parents( ::Object, true, false )
+      object_parents       = create_parents( ::Object )
       # [ Kernel ]
-      kernel_parents       = parents( ::Kernel, true, false )
+      kernel_parents       = create_parents( ::Kernel )
       # [ Class ]
-      class_parents        = parents( ::Class )
+      class_parents        = create_parents( ::Class )
+      class_parents.push( ::Class )
       # [ Module ]
-      module_parents       = parents( ::Module, true, false )
+      module_parents       = create_parents( ::Module )
 
       #---------#
       #  Class  #

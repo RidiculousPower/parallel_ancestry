@@ -9,7 +9,8 @@ module ::ParallelAncestry
 end
 
 [
-  'common/ancestors',
+  'common/parents',
+  'common/children',
   'common/bootstrap',
   'common/register',
   'common/unregister'
@@ -19,6 +20,7 @@ module ::ParallelAncestry::Common
 
   include ::ParallelAncestry::Common::Register
   include ::ParallelAncestry::Common::Unregister
+  include ::ParallelAncestry::Common::Children
 
   ###################
   #  self.extended  #
@@ -27,7 +29,7 @@ module ::ParallelAncestry::Common
   def self.extended( instance )
     
     instance.extend( ::ParallelAncestry::Common::Bootstrap,
-                     ::ParallelAncestry::Common::Ancestors )
+                     ::ParallelAncestry::Common::Parents )
     
   end
 

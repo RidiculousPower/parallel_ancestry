@@ -10,7 +10,7 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::Inherited
     
     super if defined?( super )
 
-    ::ParallelAncestry::IncludeActsLikeSubclass.register_singleton_parent( subclass, self )
+    ::ParallelAncestry::IncludeActsLikeSubclass.register_parent( subclass, self )
     ::ParallelAncestry::IncludeActsLikeSubclass.register_instance_parent( subclass, self )
 
   end

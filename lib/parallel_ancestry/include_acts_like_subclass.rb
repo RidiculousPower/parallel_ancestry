@@ -6,6 +6,7 @@ require_relative 'common.rb'
 module ::ParallelAncestry::IncludeActsLikeSubclass
   module Enable
   end
+  extend ::ParallelAncestry::Common
 end
 
 [
@@ -16,7 +17,6 @@ end
 ].each { |this_file| require_relative( this_file << '.rb' ) }
 
 module ::ParallelAncestry::IncludeActsLikeSubclass
-  extend ::ParallelAncestry::Common
   extend ::ParallelAncestry::IncludeActsLikeSubclass::Register
   extend ::ParallelAncestry::IncludeActsLikeSubclass::Unregister
 end
