@@ -54,10 +54,22 @@ describe 'ParallelAncestry::Standard Extend' do
     end
   end
 
-  context 'instance of Class instance extended by a module' do
+  context 'instance of class extended by a module' do
+    it 'singleton parents should be [ instance_of_object, Object, Kernel, BasicObject ]' do
+      parallel_ancestry.parents( instance_of_class_extended_by_module ).should == [ instance_of_class_extended_by_module, extending_module, class_instance, ::Object, ::PP::ObjectMixin, ::Kernel, ::BasicObject ]
+    end
+    it 'instance parents should be singleton parents' do
+      parallel_ancestry.instance_parents( instance_of_class_extended_by_module ).should be parallel_ancestry.parents( instance_of_class_extended_by_module )
+    end
   end
 
-  context 'instance of Sublass extended by a module' do
+  context 'instance of sublass extended by a module' do
+    it 'singleton parents should be [ instance_of_object, Object, Kernel, BasicObject ]' do
+      parallel_ancestry.parents( instance_of_subclass_extended_by_module ).should == [ instance_of_subclass_extended_by_module, extending_module, subclass, class_instance, ::Object, ::PP::ObjectMixin, ::Kernel, ::BasicObject ]
+    end
+    it 'instance parents should be singleton parents' do
+      parallel_ancestry.instance_parents( instance_of_subclass_extended_by_module ).should be parallel_ancestry.parents( instance_of_subclass_extended_by_module )
+    end
   end
   
 end
