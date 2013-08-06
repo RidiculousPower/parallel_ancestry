@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
+module ::ParallelAncestry::ModuleActsLikeSubclass::Enable::IncludedExtended
 
   #####################
   #  append_features  #
@@ -15,7 +15,7 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
   #
   def append_features( hooked_instance )
 
-    ::ParallelAncestry::IncludeActsLikeSubclass.register_include( hooked_instance, self )
+    ::ParallelAncestry::ModuleActsLikeSubclass.register_include( hooked_instance, self )
 
     super if defined?( super )
     
@@ -36,7 +36,7 @@ module ::ParallelAncestry::IncludeActsLikeSubclass::Enable::IncludedExtended
     
     # we don't want to treat self as a parent for modules that extend themselves
     unless hooked_instance.equal?( self )
-      ::ParallelAncestry::IncludeActsLikeSubclass.register_extend( hooked_instance, self )
+      ::ParallelAncestry::ModuleActsLikeSubclass.register_extend( hooked_instance, self )
     end
     
     super if defined?( super )

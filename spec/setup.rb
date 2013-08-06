@@ -3,8 +3,6 @@ require_relative 'support/named_class_and_module.rb'
 
 def initialize_base_test_setup
 
-  let( :parallel_ancestry ) { ::ParallelAncestry::Standard }
-
   let( :module_instance ) { ::Module.new.name( :ModuleInstance ) }
   let( :class_instance )  { ::Class.new.name( :ClassInstance ) }
   let( :subclass )        { ::Class.new( class_instance ).name( :Subclass ) }

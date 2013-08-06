@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-# Elements shared between ParallelAncestry::Standard and ParallelAncestry::IncludeActsLikeSubclass
+# Elements shared between ParallelAncestry::Standard and ParallelAncestry::ModuleActsLikeSubclass
 require_relative 'common.rb'
 
 ::ParallelAncestry.const_set( :Standard, ::ParallelAncestry ) unless ::ParallelAncestry.const_defined?( :Standard )

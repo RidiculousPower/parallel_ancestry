@@ -3,6 +3,6 @@
 ###
 # Extends ParallelAncestry singleton for unregistering objects
 #
-module ::ParallelAncestry::IncludeActsLikeSubclass::Unregister
+module ::ParallelAncestry::ModuleActsLikeSubclass::Unregister
 
 end

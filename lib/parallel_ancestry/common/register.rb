@@ -107,7 +107,7 @@ module ::ParallelAncestry::Common::Register
 
   def register_extend( instance, extending_module )
 
-    register_instance_of_parent( instance, extending_module )
+    parents( instance ).register_parent( instance_parents( extending_module ), 0 )
 
   end
 
