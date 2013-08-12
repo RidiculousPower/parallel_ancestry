@@ -21,7 +21,7 @@ module ::ParallelAncestry::Common::Bootstrap
   
   def create_parents( instance )
     
-    return @parents_hash[ instance.__id__ ] = ::Array::UniqueByID::Compositing.new( nil, instance )
+    return @parents_hash[ instance.__id__ ] = ::ParallelAncestry::ParentsArray.new( nil, instance )
     
   end
   
@@ -31,7 +31,7 @@ module ::ParallelAncestry::Common::Bootstrap
   
   def create_instance_parents( instance )
     
-    return @instance_parents_hash[ instance.__id__ ] = ::Array::UniqueByID::Compositing.new( nil, instance )
+    return @instance_parents_hash[ instance.__id__ ] = ::ParallelAncestry::InstanceParentsArray.new( nil, instance )
     
   end
   
@@ -145,3 +145,4 @@ module ::ParallelAncestry::Common::Bootstrap
   end
   
 end
+

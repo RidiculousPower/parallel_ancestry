@@ -11,3 +11,4 @@ describe 'ParallelAncestry::ModuleActsLikeSubclass Include' do
   end
 
 end
+

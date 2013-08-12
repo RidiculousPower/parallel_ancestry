@@ -1,30 +1,13 @@
 # -*- encoding : utf-8 -*-
 
-# Elements shared between ParallelAncestry::Standard and ParallelAncestry::ModuleActsLikeSubclass
-require_relative 'common.rb'
-
-::ParallelAncestry.const_set( :Standard, ::ParallelAncestry ) unless ::ParallelAncestry.const_defined?( :Standard )
+unless ::Object.const_defined?( :ParallelAncestry )
+  require_relative '../parallel_ancestry.rb'
+end
 
 module ::ParallelAncestry::Standard
-  module Enable
-    module IncludedExtended
-    end
+  ::ParallelAncestry.suspend do
+    extend ::ParallelAncestry::Common
+    ::ParallelAncestry.register_module( self )
   end
-  extend ::ParallelAncestry::Common
 end
 
-[
-  'standard/enable/inherited'
-].each { |this_file| require_relative( this_file << '.rb' ) }
-
-class ::Object
-  extend ::ParallelAncestry::Standard::Enable::Inherited
-end
-
-class ::Module
-  include ::ParallelAncestry::Standard::Enable::IncludedExtended
-end
-
-[
-  'standard/enable/included_extended'
-].each { |this_file| require_relative( this_file << '.rb' ) }

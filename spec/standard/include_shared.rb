@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../lib/parallel_ancestry/standard.rb'
 require_relative '../setup.rb'

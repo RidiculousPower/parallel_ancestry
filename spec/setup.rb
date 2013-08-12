@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative 'support/named_class_and_module.rb'
 

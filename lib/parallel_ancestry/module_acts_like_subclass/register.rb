@@ -27,3 +27,4 @@ module ::ParallelAncestry::ModuleActsLikeSubclass::Register
   end
 
 end
+

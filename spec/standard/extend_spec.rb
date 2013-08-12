@@ -9,3 +9,4 @@ describe 'ParallelAncestry::Standard Extend' do
   end
   
 end
+

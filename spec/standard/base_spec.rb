@@ -11,3 +11,4 @@ describe 'ParallelAncestry::Standard Base' do
   end
 
 end
+

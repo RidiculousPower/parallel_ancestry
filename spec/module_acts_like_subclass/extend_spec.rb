@@ -11,3 +11,4 @@ describe 'ParallelAncestry::ModuleActsLikeSubclass Extend' do
   end
 
 end
+

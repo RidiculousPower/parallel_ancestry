@@ -85,7 +85,7 @@ module ::ParallelAncestry::Common::Register
   #######################
   
   def register_subclass( subclass, superclass )
-    
+
     register_parent( subclass, superclass )
     register_instance_parent( subclass, superclass )
     
@@ -122,3 +122,4 @@ module ::ParallelAncestry::Common::Register
   end
 
 end
+

@@ -52,3 +52,4 @@ describe 'ParallelAncestry common bootstrapping' do
   end
 
 end
+
