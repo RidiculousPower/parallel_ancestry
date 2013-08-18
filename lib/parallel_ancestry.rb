@@ -30,10 +30,10 @@ module ::ParallelAncestry
   extend ::ParallelAncestry::Modules
 end
 
-class ::Object
-  extend ::ParallelAncestry::Inherited
-end
+[
 
-class ::Module
-  include ::ParallelAncestry::IncludedExtended
-end
+  '../lib_ext/object',
+  '../lib_ext/module'
+
+].each { |this_file| require_relative( this_file << '.rb' ) }
+

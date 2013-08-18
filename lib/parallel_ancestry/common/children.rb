@@ -4,7 +4,7 @@
 # Extends ParallelAncestry singleton for tracking objects
 #
 module ::ParallelAncestry::Common::Children
-
+  
   ###############
   #  is_child?  #
   ###############

@@ -4,6 +4,12 @@
 
 class ::Module
 
+  ######################
+  #  original_include  #
+  ######################
+
+  alias_method :original_include, :include
+
   #############
   #  include  #
   #############
@@ -19,6 +25,12 @@ class ::Module
     return self
         
   end
+
+  #####################
+  #  original_extend  #
+  #####################
+
+  alias_method :original_extend, :extend
 
   ############
   #  extend  #
