@@ -1,21 +1,30 @@
 # -*- encoding : utf-8 -*-
 
 require 'call_super'
+require 'pre_and_post_initialize'
+require 'module-cluster'
 require 'array/unique/compositing'
 
 module ::ParallelAncestry
   module Common
   end
+  module Hooks
+  end
+  module Array
+  end
 end
 
 [
 
-  'parallel_ancestry/parents_array',
-  'parallel_ancestry/instance_parents_array',
+  'parallel_ancestry/array/parents_array',
+  'parallel_ancestry/array/instance_parents_array',
+
   'parallel_ancestry/modules',
 
-  'parallel_ancestry/inherited',
-  'parallel_ancestry/included_extended',
+  'parallel_ancestry/hooks/new',
+  'parallel_ancestry/hooks/instance',
+  'parallel_ancestry/hooks/inherited',
+  'parallel_ancestry/hooks/included_extended',
 
   'parallel_ancestry/common/parents',
   'parallel_ancestry/common/children',
@@ -36,4 +45,3 @@ end
   '../lib_ext/module'
 
 ].each { |this_file| require_relative( this_file << '.rb' ) }
-

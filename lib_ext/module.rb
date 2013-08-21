@@ -2,6 +2,6 @@
 
 class ::Module
 
-  include ::ParallelAncestry::IncludedExtended
+  include ::ParallelAncestry::Hooks::IncludedExtended
 
 end

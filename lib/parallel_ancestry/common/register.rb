@@ -116,8 +116,10 @@ module ::ParallelAncestry::Common::Register
   #######################
 
   def register_instance( instance, parent_instance )
-
-    register_parent( instance, parent_instance )
+    
+    unless ::Class === instance
+      register_instance_of_parent( instance, parent_instance )
+    end    
 
   end
 

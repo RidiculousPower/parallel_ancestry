@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 
 class ::Object
-
-  extend ::ParallelAncestry::Inherited
-
+  
+  extend ::PreAndPostInitialize
+  extend ::ParallelAncestry::Hooks::Inherited
+    
 end

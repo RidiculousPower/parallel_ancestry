@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-module ::ParallelAncestry::Inherited
+module ::ParallelAncestry::Hooks::Inherited
 
   ###############
   #  inherited  #

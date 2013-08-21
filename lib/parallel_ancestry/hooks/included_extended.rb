@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-module ::ParallelAncestry::IncludedExtended
+module ::ParallelAncestry::Hooks::IncludedExtended
 
   #####################
   #  append_features  #

@@ -34,7 +34,7 @@ module ::ParallelAncestry::Common::Parents
   #         Struct for instance.
   #
   def parents( instance, create_if_needed = true )
-    
+
     unless parents_array = @parents_hash[ instance.__id__ ] or ! create_if_needed
       parents_array = create_parents( instance )
       # Insert self in order
