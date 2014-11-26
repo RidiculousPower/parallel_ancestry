@@ -111,6 +111,11 @@ def initialize_inheriting_instance
 end
 ```
 
+# Dedication
+
+This project is dedicated to banisterfiend, the author of the [Pry](http://pry.github.com) REPL. Without his
+inspiration and encouragement this project would not have been possible.
+
 # License #
 
   (The MIT License)
